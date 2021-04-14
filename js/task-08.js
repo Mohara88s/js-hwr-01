@@ -25,30 +25,36 @@ boxesDiv.style.display = 'flex'
 boxesDiv.style.flexWrap = 'wrap'
 
 function onRenderButtonClick() {
-       createBoxes(Number.parseInt(inputField.value))
+    boxes.createBoxes(Number.parseInt(inputField.value))
 }
 
 function onDestroyButtonClick() {
-    destroyBoxes()
+    boxes.destroyBoxes()
 }
 
 renderButton.addEventListener('click', onRenderButtonClick)
 destroyButton.addEventListener('click', onDestroyButtonClick)
 
-function createBoxes(amount) {
-    const boxesArray = []
-    for (let i = 0; i < amount; i++) {
-        boxesArray.push(document.createElement('div'))
-        boxesArray[i].style.width = i * 10 + 30 + 'px'
-        boxesArray[i].style.height = i * 10 + 30 + 'px'
-        boxesArray[i].style.backgroundColor = 'rgb(' + getRandomInt(255) + ',' + getRandomInt(255) + ',' + getRandomInt(255) + ')'
+const boxes = {
+    counter: 0,
+    
+    createBoxes(amount) {
+        const boxesArray = []
+              
+        for (let i = 0; i < amount; i++) {
+            boxesArray.push(document.createElement('div'))
+            boxesArray[i].style.width = this.counter * 10 + 30 + 'px'
+            boxesArray[i].style.height = this.counter * 10 + 30 + 'px'
+            boxesArray[i].style.backgroundColor = 'rgb(' + getRandomInt(255) + ',' + getRandomInt(255) + ',' + getRandomInt(255) + ')'
+            this.counter +=1
+        }
+        boxesDiv.append(...boxesArray)
+    },
+
+    destroyBoxes() {
+        boxesDiv.innerHTML = ''
+        this.counter = 0
     }
-    boxesDiv.append(...boxesArray)
-}
-
-
-function destroyBoxes() {
-boxesDiv.innerHTML = ''
 }
 
 function getRandomInt(max) {
